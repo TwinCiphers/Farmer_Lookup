@@ -561,7 +561,7 @@ This project is created for educational and commercial use. All dependencies mai
 3. **Register** as a farmer or buyer
 4. **Start building** your local food network!
 
-**Visit**: http://localhost:8000 to begin your journey! 🌱
+**Visit**: http://localhost/FarmerLookup/index.html to begin your journey! 🌱
 
 ---
 
