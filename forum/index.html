@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Forum - Community Exchange</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="forum-container">
+        <header>
+            <h1>Market Discussion Board 💬</h1>
+            <p>Connect with vendors, share recipes, and discuss local food trends!</p>
+        </header>
+        
+        <section class="create-thread-section">
+            <h2>Start a New Topic</h2>
+            <form id="newThreadForm">
+                <div class="form-group">
+                    <label for="threadTitle">Topic Title</label>
+                    <input type="text" id="threadTitle" required placeholder="e.g., Best way to use fresh basil?">
+                </div>
+                
+                <div class="form-group">
+                    <label for="threadAuthor">Your Name</label>
+                    <input type="text" id="threadAuthor" required placeholder="Community Member">
+                </div>
+                
+                <div class="form-group">
+                    <label for="threadContent">Your Message</label>
+                    <textarea id="threadContent" rows="4" required placeholder="Share your question, idea, or announcement here..."></textarea>
+                </div>
+                
+                <button type="submit">Post New Thread</button>
+            </form>
+            <div id="formStatus" class="status-message"></div>
+        </section>
+
+        ---
+
+        <section class="thread-list-section">
+            <h2>Active Discussions</h2>
+            <div id="threadList" class="thread-list">
+                </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

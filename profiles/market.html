@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Local Food Marketplace</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f9f9f9;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    color: #2a7a2a;
+  }
+  #searchSection {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+  input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    border: 2px solid #2a7a2a;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: #2a7a2a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  button:hover {
+    background-color: #1f5f1f;
+  }
+  #farmersList {
+    max-width: 700px;
+    margin: 0 auto;
+    display: grid;
+    gap: 15px;
+  }
+  .farmerCard {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  }
+  .farmerName {
+    font-size: 18px;
+    font-weight: bold;
+    color: #3a903a;
+  }
+  .certifications {
+    font-style: italic;
+    color: #666;
+  }
+  .productsList {
+    margin-top: 10px;
+  }
+  .product {
+    background-color: #e4f7e4;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 8px;
+    margin-bottom: 5px;
+  }
+</style>
+</head>
+<body>
+  <h1>Find Local Farmers</h1>
+  <div id="searchSection">
+    <input type="text" id="locationInput" placeholder="Enter your location" />
+    <button onclick="searchFarmers()">Search</button>
+  </div>
+  <div id="farmersList"></div>
+
+  <script>
+    // Example farmer data - in real application this would come from a server/database
+    const farmers = [
+      {
+        name: "Green Valley Organics",
+        location: "Mysore",
+        certifications: "Organic Certified, USDA",
+        products: ["Tomatoes", "Spinach", "Carrots"],
+      },
+      {
+        name: "Sunrise Dairy",
+        location: "Mysore",
+        certifications: "Grass-fed, Antibiotic-free",
+        products: ["Milk", "Cheese", "Butter"],
+      },
+      {
+        name: "Fresh Roots Farm",
+        location: "Bangalore",
+        certifications: "Sustainable Farming",
+        products: ["Potatoes", "Onions", "Cucumbers"],
+      },
+    ];
+
+    function searchFarmers() {
+      const location = document.getElementById('locationInput').value.trim().toLowerCase();
+      const results = farmers.filter(farmer =>
+        farmer.location.toLowerCase().includes(location)
+      );
+      displayFarmers(results);
+    }
+
+    function displayFarmers(farmersList) {
+      const container = document.getElementById("farmersList");
+      container.innerHTML = "";
+      if (farmersList.length === 0) {
+        container.innerHTML = "<p>No farmers found in your area.</p>";
+        return;
+      }
+      farmersList.forEach(farmer => {
+        const farmerDiv = document.createElement("div");
+        farmerDiv.className = "farmerCard";
+        farmerDiv.innerHTML = `
+          <div class="farmerName">${farmer.name}</div>
+          <div class="certifications">${farmer.certifications}</div>
+          <div><strong>Products Available:</strong></div>
+          <div class="productsList">${farmer.products.map(p => `<span class="product">${p}</span>`).join('')}</div>
+        `;
+        container.appendChild(farmerDiv);
+      });
+    }
+  </script>
+</body>
+</html>

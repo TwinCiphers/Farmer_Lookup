@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn More - Local Food Market</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header-banner">
+        <div class="hero-content">
+            <h1>Rooted in Community, Grown with Care.</h1>
+            <p>Discover the heart and soul behind your local food market. We're more than just fresh produce—we're a movement.</p>
+            <a href="#mission" class="btn primary-btn">Our Mission</a>
+        </div>
+    </div>
+
+    <main class="container">
+        <section id="mission" class="mission-section">
+            <h2>The Seed of Our Idea</h2>
+            <p>The Local Food Market was founded on a simple belief: that vibrant, healthy communities are built around **fresh, accessible food** and strong relationships between farmers and neighbors. Every purchase supports a local family and reduces our collective carbon footprint.</p>
+            <p>Our goal is to create a sustainable cycle that benefits everyone, from the soil to your table.</p>
+        </section>
+
+        <hr>
+
+        <section class="pillars-section">
+            <h2>Our Three Pillars</h2>
+            <div class="pillar-cards">
+                
+                <div class="card" id="card-local">
+                    <span class="icon">🌱</span>
+                    <h3>Hyper-Local Sourcing</h3>
+                    <p>We guarantee that all fresh produce and products are sourced from farms within a 50-mile radius. This ensures peak freshness and exceptional quality.</p>
+                    <button class="learn-more-btn" data-info="local">Read More</button>
+                </div>
+                
+                <div class="card" id="card-sustainability">
+                    <span class="icon">🌍</span>
+                    <h3>Sustainable Practices</h3>
+                    <p>We actively partner with farmers who use organic, regenerative, and low-waste methods to protect the land and promote biodiversity.</p>
+                    <button class="learn-more-btn" data-info="sustainability">Read More</button>
+                </div>
+                
+                <div class="card" id="card-community">
+                    <span class="icon">🤝</span>
+                    <h3>Community Connection</h3>
+                    <p>Beyond sales, we host workshops, cooking classes, and donation programs to make healthy eating a community-wide priority.</p>
+                    <button class="learn-more-btn" data-info="community">Read More</button>
+                </div>
+
+            </div>
+        </section>
+
+        <div id="infoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3 id="modalTitle"></h3>
+                <p id="modalText"></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

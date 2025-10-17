@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Farmer Lookup - Connect with Local Farmers</title>
+  <meta name="description" content="Find fresh, local produce directly from farmers. Support your community and get the freshest ingredients delivered to your door.">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <style>
+    /* === Farmer Lookup — Agricultural Theme CSS (integrated & corrected) === */
+    :root{
+      --primary-green: #2E7D32;
+      --secondary-green: #4CAF50;
+      --accent-green: #66BB6A;
+      --earth-brown: #8D6E63;
+      --wheat-gold: #FFA000;
+      --harvest-orange: #FF6F00;
+      --sky-blue: #1976D2;
+      --soil-dark: #3E2723;
+      --cream-white: #FFF8E1;
+      --sage-light: #E8F5E8;
+      --danger-red: #D32F2F;
+      --success-green: #388E3C;
+
+      --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-heading: 'Georgia', serif;
+
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --spacing-xxl: 3rem;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+
+      --shadow-light: 0 2px 4px rgba(0,0,0,0.08);
+      --shadow-medium: 0 6px 18px rgba(0,0,0,0.12);
+      --shadow-heavy: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    /* Reset / base */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--font-primary);
+      line-height:1.6;
+      color:var(--soil-dark);
+      background:linear-gradient(135deg,var(--cream-white) 0%,var(--sage-light) 100%);
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-size:16px;
+    }
+
+    /* Typography */
+    h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);color:var(--primary-green);margin-bottom:var(--spacing-md);font-weight:600}
+    h1{font-size:2.25rem}
+    h2{font-size:1.75rem}
+    h3{font-size:1.25rem}
+    p{margin-bottom:var(--spacing-md);color:var(--soil-dark)}
+    a{color:var(--primary-green);text-decoration:none;transition:color .2s}
+    a:hover{color:var(--secondary-green)}
+
+    /* Layout helpers */
+    .container{max-width:1200px;margin:0 auto;padding:0 var(--spacing-lg)}
+    .section{padding:var(--spacing-xl) 0}
+    .row{display:flex;gap:var(--spacing-lg);align-items:flex-start;flex-wrap:wrap}
+    .col-1{flex:0 0 8.333%}
+    .col-2{flex:0 0 16.666%}
+    .col-3{flex:0 0 25%}
+    .col-4{flex:0 0 33.333%}
+    .col-6{flex:0 0 50%}
+    .col-8{flex:0 0 66.666%}
+    .col-9{flex:0 0 75%}
+    .col-12{flex:0 0 100%}
+
+    /* Header */
+    .header{background:linear-gradient(90deg,var(--primary-green),var(--secondary-green));color:#fff;padding:var(--spacing-md) 0;box-shadow:var(--shadow-medium);position:sticky;top:0;z-index:1000}
+    .header-container{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:1200px;margin:0 auto;padding:0 var(--spacing-lg)}
+    .logo{display:flex;align-items:center;gap:var(--spacing-sm)}
+    .logo-icon{font-size:1.6rem;color:var(--wheat-gold)}
+    .logo-text{font-family:var(--font-heading);font-weight:700;color:rgb(15, 62, 2)}
+    .nav-menu{display:flex;list-style:none;gap:var(--spacing-lg)}
+    .nav-item a{color:white;padding:var(--spacing-sm) var(--spacing-md);border-radius:var(--radius-md);display:inline-block}
+    .user-actions{display:flex;gap:var(--spacing-sm);align-items:center}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-sm) var(--spacing-md);border-radius:var(--radius-md);font-weight:500;cursor:pointer;border:none}
+    .btn-primary{background:var(--secondary-green);color:white}
+    .btn-primary:hover{background:var(--primary-green);transform:translateY(-2px);box-shadow:var(--shadow-medium)}
+    .btn-secondary{background:var(--wheat-gold);color:white}
+    .btn-secondary:hover{background:var(--harvest-orange)}
+    .btn-outline{background:transparent;color:white;border:2px solid rgba(255,255,255,0.14);padding:calc(var(--spacing-xs)) var(--spacing-md)}
+    .btn-lg{padding:var(--spacing-md) var(--spacing-xl);font-size:1.05rem}
+    .btn-sm{padding:var(--spacing-xs) var(--spacing-sm);font-size:.9rem}
+
+    /* Hero */
+    .hero .hero-content{padding:var(--spacing-lg) 0}
+    .hero-subtitle{color:rgba(62,39,35,0.85);margin-bottom:var(--spacing-md)}
+    .hero-features{display:flex;flex-wrap:wrap;gap:var(--spacing-md);margin:var(--spacing-md) 0}
+    .feature-item{display:flex;align-items:center;gap:.5rem;background:rgba(232,245,232,0.8);padding:.5rem .75rem;border-radius:calc(var(--radius-md));font-weight:500}
+    .hero-actions{display:flex;gap:10px;margin-top:var(--spacing-md);position:right; }
+    .hero-image img{display:block;width:100%;height:auto}
+
+    /* Feature cards */
+    .card{background:white;border-radius:var(--radius-lg);box-shadow:var(--shadow-light);overflow:hidden;transition:all .18s ease}
+    .card:hover{box-shadow:var(--shadow-medium);transform:translateY(-4px)}
+    .feature-card .card-body{padding:var(--spacing-lg)}
+    .feature-icon{font-size:2rem;margin-bottom:.5rem}
+
+    /* Farmers section */
+    .benefit-list{display:flex;flex-direction:column;gap:var(--spacing-md)}
+    .benefit-item{display:flex;gap:var(--spacing-md);align-items:flex-start}
+    .benefit-icon{font-size:1.6rem}
+    .farmer-cta{margin-top:var(--spacing-lg)}
+    .cta-note{font-size:.9rem;color:rgba(62,39,35,0.7);margin-top:.5rem}
+
+    /* How it works */
+    .step-card{background:#fff;padding:var(--spacing-lg);border-radius:var(--radius-md);box-shadow:var(--shadow-light);text-align:left}
+    .step-number{font-weight:700;color:var(--primary-green);font-size:1.1rem;margin-bottom:.5rem}
+    .step-icon{font-size:1.6rem;margin-bottom:.5rem}
+
+    /* About / stats */
+    .stats-grid{display:flex;flex-wrap:wrap;gap:var(--spacing-lg);margin-top:var(--spacing-lg)}
+    .stat-item{background:var(--sage-light);padding:var(--spacing-md);border-radius:var(--radius-md);min-width:140px;text-align:center}
+    .stat-number{font-size:1.25rem;font-weight:700;color:var(--primary-green)}
+    .stat-label{font-size:.9rem;color:rgba(62,39,35,0.8)}
+
+    /* CTA */
+    .cta-section{background:linear-gradient(90deg, rgba(46,125,50,0.06), rgba(255,160,0,0.03));text-align:center;padding:var(--spacing-xl) 0;border-radius:var(--radius-lg)}
+    .cta-buttons{display:flex;gap:var(--spacing-md);justify-content:center;margin-top:var(--spacing-md);flex-wrap:wrap}
+
+    /* Footer */
+    .footer{padding:var(--spacing-lg) 0}
+    .footer-section{margin-bottom:var(--spacing-md)}
+    .footer-logo{display:flex;align-items:center;gap:.5rem;font-weight:700}
+    .footer .logo-icon{font-size:1.2rem;color:var(--wheat-gold)}
+    .footer ul{list-style:none;padding:0}
+    .footer a{color:var(--soil-dark)}
+    .footer-bottom{margin-top:var(--spacing-lg);border-top:1px solid rgba(62,39,35,0.04);padding-top:var(--spacing-md);color:rgba(62,39,35,0.7);font-size:.95rem}
+
+    /* Utility */
+    .section-header{text-align:left;margin-bottom:var(--spacing-lg)}
+    .section-header p{color:rgba(62,39,35,0.8)}
+    .hero .feature-item span:first-child{display:inline-flex;align-items:center;justify-content:center}
+
+    /* Responsive tweaks */
+    @media (max-width: 992px){
+      .col-6{flex:0 0 50%}
+      .col-4{flex:0 0 33.333%}
+      .col-3{flex:0 0 33.333%}
+    }
+    @media (max-width: 768px){
+      .header-container{flex-direction:column;align-items:stretch;gap:var(--spacing-md)}
+      .nav-menu{flex-direction:column;gap:var(--spacing-sm);width:100%;text-align:center}
+      .row{flex-direction:column}
+      .col-6,.col-4,.col-3,.col-9{flex:0 0 100%}
+      .hero-image{margin-top:var(--spacing-md)}
+      .cta-buttons{flex-direction:column}
+    }
+    @media (max-width:480px){
+      h1{font-size:1.6rem}
+      .btn-lg{padding:.6rem 1rem}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container container">
+      <div class="logo">
+        <span class="logo-icon">🚜</span>
+        <span class="logo-text">Farmer Lookup</span>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <ul class="nav-menu" role="menubar">
+          <li class="nav-item" role="none"><a role="menuitem" href="#home">Home</a></li>
+          <li class="nav-item" role="none"><a role="menuitem" href="#features">Features</a></li>
+          <li class="nav-item" role="none"><a role="menuitem" href="marketplace.html">Marketplace</a></li>
+          <li class="nav-item" role="none"><a role="menuitem" href="#farmers">For Farmers</a></li>
+          <li class="nav-item" role="none"><a role="menuitem" href="#about">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="user-actions">
+        <a href="login.html" class="btn btn-outline btn-sm" aria-label="Login">
+          <span class="icon icon-user">👤</span> Login
+        </a>
+        <a href="register.html" class="btn btn-primary btn-sm" aria-label="Join as farmer or buyer">
+          Join as Farmer/Buyer
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero section">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <div class="hero-content">
+            <h1>Fresh. Local. Direct from Farmers.</h1>
+            <p class="hero-subtitle">
+              Connect with local farmers in your area. Get the freshest produce,
+              support your community, and eliminate the middleman.
+            </p>
+
+            <div class="hero-features">
+              <div class="feature-item"><span class="icon icon-location">📍</span><span>Location-Based Discovery</span></div>
+              <div class="feature-item"><span class="icon icon-harvest">🌾</span><span>Farm-Fresh Quality</span></div>
+              <div class="feature-item"><span class="icon icon-message">💬</span><span>Direct Communication</span></div>
+            </div>
+
+            <div class="hero-actions">
+              <a href="marketplace.html" class="btn btn-primary btn-lg"><span class="icon icon-search">🔍</span> Find Local Produce</a>
+              <a href="register.html?type=farmer" class="btn btn-secondary btn-lg"><span class="icon icon-farm">🚜</span> List Your Farm</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="hero-image">
+            <img src="C:\Users\tilak\Downloads\farmer.jpeg" alt="Local farmer with fresh produce" style="width:100%;border-radius:var(--radius-lg);box-shadow:var(--shadow-heavy);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features-section section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Why Choose Farmer Lookup?</h2>
+        <p>Connecting communities through fresh, local food</p>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <div class="card feature-card">
+            <a href="digital/digital.html">
+            <div class="card-body">
+              <div class="feature-icon">🚜</div>
+              <h3>Digital Farmstand</h3>
+              <p>Farmers create beautiful profiles showcasing their farm story, certifications, and product catalog with real-time availability.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card feature-card">
+            <a href="map/map.html">
+            <div class="card-body">
+              <div class="feature-icon">📍</div>
+              <h3>Location-Based Search</h3>
+              <p>Smart search finds farmers within your delivery zone. Filter by distance, product type, farming practices, and availability.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card feature-card">
+             <a href="messages/msg.html">
+            <div class="card-body">
+              <div class="feature-icon">💬</div>
+              <h3>Direct Communication</h3>
+              <p>Built-in messaging lets buyers ask questions and place custom orders. Professional transaction tracking included.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:var(--spacing-md);">
+        <div class="col-4">
+          <div class="card feature-card">
+            <a href="review/review.html">
+            <div class="card-body">
+              <div class="feature-icon">⭐</div>
+              <h3>Trust System</h3>
+              <p>Dual-sided reviews build community trust. Rate farmers on quality and service, farmers rate buyers on reliability.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card feature-card">
+            <a href="dilivaary zone/index.html">
+            <div class="card-body">
+              <div class="feature-icon">🗺️</div>
+              <h3>Delivery Zones</h3>
+              <p>Interactive maps show farmer delivery areas with fees and minimums. Plan your orders efficiently.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card feature-card">
+            <a href="inventory/index.html">
+            <div class="card-body">
+              <div class="feature-icon">📊</div>
+              <h3>Inventory Management</h3>
+              <p>Automated inventory tracking prevents overselling. Real-time stock updates and low-stock alerts for farmers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Farmers Section -->
+  <section id="farmers" class="farmers-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <div class="farmer-benefits">
+            <h2>Grow Your Farm Business</h2>
+            <p>Join thousands of farmers already selling directly to their community</p>
+
+            <div class="benefit-list">
+              <div class="benefit-item">
+                <span class="benefit-icon">💰</span>
+                <div><h4>Higher Profit Margins</h4><p>Eliminate middlemen and keep more of what you earn</p></div>
+              </div>
+
+              <div class="benefit-item">
+                <span class="benefit-icon">📱</span>
+                <div><h4>Mobile Farm Management</h4><p>Update inventory, manage orders, and communicate with customers on the go</p></div>
+              </div>
+
+              <div class="benefit-item">
+                <span class="benefit-icon">📈</span>
+                <div><h4>Sales Analytics</h4><p>Track your best-selling products and peak seasons to optimize your harvests</p></div>
+              </div>
+
+              <div class="benefit-item">
+                <span class="benefit-icon">🤝</span>
+                <div><h4>Community Building</h4><p>Build lasting relationships with customers who care about local food</p></div>
+              </div>
+            </div>
+
+            <div class="farmer-cta">
+              <a href="register.html?type=farmer" class="btn btn-primary btn-lg"><span class="icon icon-farm">🚜</span> Start Selling Today</a>
+              <p class="cta-note">Free to join • No setup fees • Start earning immediately</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="farmer-dashboard-preview">
+            <img src="assets/images/farmer-dashboard.jpg" alt="Farmer dashboard preview" style="width:100%;border-radius:var(--radius-lg);box-shadow:var(--shadow-medium)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works section">
+    <div class="container">
+      <div class="section-header">
+        <h2>How It Works</h2>
+        <p>Three simple steps to fresh, local food</p>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <div class="step-card">
+            <a href="profiles/market.html">
+            <div class="step-number">1</div>
+            <div class="step-icon">📍</div>
+            <h3>Find Local Farmers</h3>
+            <p>Search by location to discover farmers near you. Browse their profiles, certifications, and available products.</p>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="step-card">
+            <a href="orders/order.html">
+            <div class="step-number">2</div>
+            <div class="step-icon">🛒</div>
+            <h3>Place Your Order</h3>
+            <p>Add products to your cart, choose delivery or pickup, and communicate any special requirements with the farmer.</p>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-icon">🥬</div>
+            <h3>Enjoy Fresh Produce</h3>
+            <p>Receive your farm-fresh products and leave a review to help build the community trust network.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about-section section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2>About Farmer Lookup</h2>
+          <p>
+            Farmer Lookup was created with a simple mission: to connect communities with their local farmers.
+            We believe that fresh, local food should be accessible to everyone, and farmers should be able to
+            reach their customers directly without expensive middlemen.
+          </p>
+          <p>
+            Our platform eliminates the barriers between farmers and consumers, creating a transparent marketplace
+            where quality, sustainability, and community relationships thrive. Whether you're a small family farm
+            or a large agricultural operation, Farmer Lookup provides the digital tools you need to grow your business.
+          </p>
+
+          <div class="stats-grid" style="margin-top:var(--spacing-lg);">
+            <div class="stat-item"><div class="stat-number">1,200+</div><div class="stat-label">Active Farmers</div></div>
+            <div class="stat-item"><div class="stat-number">25,000+</div><div class="stat-label">Happy Customers</div></div>
+            <div class="stat-item"><div class="stat-number">₹ 2M+</div><div class="stat-label">Farmer Revenue</div></div>
+            <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Communities Served</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Experience Farm-Fresh Food?</h2>
+        <p>Join thousands of people already enjoying the freshest produce from their local farmers</p>
+
+        <div class="cta-buttons">
+          <a href="marketplace.html" class="btn btn-primary btn-lg"><span class="icon icon-search">🔍</span> Start Shopping</a>
+          <a href="register.html" class="btn btn-secondary btn-lg"><span class="icon icon-farm">🚜</span> Become a Seller</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <div class="footer-section">
+            <div class="footer-logo">
+              <span class="logo-icon">🚜</span>
+              <span class="logo-text">Farmer Lookup</span>
+            </div>
+            <p>Connecting communities with fresh, local food directly from farmers.</p>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="footer-section">
+            <h4>For Buyers</h4>
+            <ul>
+              <li><a href="marketplace.html">Find Products</a></li>
+              <li><a href="login.html">My Orders</a></li>
+              <li><a href="register.html">Create Account</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="footer-section">
+            <h4>For Farmers</h4>
+            <ul>
+              <li><a href="register.html?type=farmer">Sell Products</a></li>
+              <li><a href="login.html">Farm Dashboard</a></li>
+              <li><a href="learn more/index.html">Learn More</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="footer-section">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="contact us/index.html">Contact Us</a></li>
+              <li><a href="faq/faq.html">FAQ</a></li>
+              <li><a href="pp policy 123/index.html">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="footer-section">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="blog/index.html#featured-posts">Blog</a></li>
+              <li><a href="forum/index.html">Forum</a></li>
+              <li><a href="news leter 123/index.html">Newsletter</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Farmer Lookup. All rights reserved. | Made with 💚 for local communities</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- optional minimal JS (keep separate in assets/js/main.js if desired) -->
+  <script>
+    // small accessibility: keyboard nav collapse placeholder (expand later)
+    (function(){
+      // Example: add active-link highlighting (based on hash)
+      function setActiveLink(){
+        var links = document.querySelectorAll('.nav-menu a');
+        links.forEach(function(a){ a.classList.remove('active') });
+        var target = window.location.hash || '#home';
+        var active = document.querySelector('.nav-menu a[href="'+target+'"]');
+        if(active) active.classList.add('active');
+      }
+      window.addEventListener('hashchange', setActiveLink);
+      setActiveLink();
+    })();
+  </script>
+</body>
+</html>

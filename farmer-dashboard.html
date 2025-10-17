@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Farmer Dashboard - Farmer Lookup</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="logo"><span class="logo-icon">🚜</span><span class="logo-text">Farmer Lookup</span></div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="marketplace.html">Marketplace</a></li>
+        </ul>
+      </nav>
+      <div class="user-actions"><a href="login.html" class="btn btn-outline">Login</a></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Farmer Dashboard</h1>
+    <p>Welcome to your dashboard. Overview of your farm activity appears below.</p>
+    <div id="dashboard-widgets">
+      <div class="widget" id="w-products">
+        <h3>Products</h3>
+        <div id="products-count">Loading…</div>
+        <a href="manage-products.html">Manage Products</a>
+      </div>
+      <div class="widget" id="w-orders">
+        <h3>Recent Orders</h3>
+        <div id="orders-list">Loading…</div>
+        <a href="orders/order.html">View Orders</a>
+      </div>
+      <div class="widget" id="w-profile">
+        <h3>Profile</h3>
+        <a href="profiles/market.html">Edit Profile</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+  (function(){
+    function apiCall(endpoint, method='GET', data=null){
+      if (window.app && typeof window.app.apiCall === 'function') return window.app.apiCall(endpoint, method, data);
+      const opts = { method, headers: { 'Content-Type': 'application/json' } };
+      if (data && method !== 'GET') opts.body = JSON.stringify(data);
+      return fetch('../api/' + endpoint, opts).then(r=>r.json());
+    }
+
+    async function loadDashboard(){
+      const user = window.app && window.app.currentUser ? window.app.currentUser : null;
+      const farmerId = user && user.user_type === 'farmer' ? user.id : (prompt('Enter your farmer id for dashboard (numeric)') || 0);
+
+      // Products count
+      try{
+        const prodResp = await apiCall('products/search.php?farmer_id=' + encodeURIComponent(farmerId));
+        const products = (prodResp && prodResp.products) ? prodResp.products : (prodResp.data || []);
+        document.getElementById('products-count').textContent = Array.isArray(products) ? products.length : '0';
+      }catch(e){ document.getElementById('products-count').textContent = 'Error'; }
+
+      // Recent orders
+      try{
+        const ordResp = await apiCall('orders/for_farmer.php?farmer_id=' + encodeURIComponent(farmerId));
+        if (ordResp && ordResp.orders) {
+          const list = ordResp.orders.map(o => `<div class="order-item">Order #${o.order_id} - Product ${o.product_id} ×${o.quantity} - $${(o.unit_price*o.quantity).toFixed(2)} - ${o.created_at}</div>`).join('') || '<div>No orders</div>';
+          document.getElementById('orders-list').innerHTML = list;
+        } else {
+          document.getElementById('orders-list').textContent = 'No orders';
+        }
+      }catch(e){ console.error(e); document.getElementById('orders-list').textContent = 'Error loading orders'; }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDashboard);
+  })();
+  </script>
+  <style>
+    /* Page-specific overrides: make header and dashboard widgets white */
+    .header { background: white !important; color: var(--soil-dark) !important; }
+    .header .logo-text, .header .nav-menu a { color: var(--soil-dark) !important; }
+    #dashboard-widgets { display: flex; gap: 1rem; margin-top: 1rem; }
+    #dashboard-widgets .widget { background: white; border-radius: 8px; padding: 1rem; box-shadow: var(--shadow-light); flex: 1; }
+
+    #dashboard-widgets .widget h3 { color: var(--soil-dark); }
+  </style>
+</body>
+</html>

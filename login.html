@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Farmer Lookup</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">🚜</span>
+                <span class="logo-text">Farmer Lookup</span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="marketplace.html">Marketplace</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <a href="register.html" class="btn btn-primary">
+                    Join as Farmer/Buyer
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="auth-section section">
+        <div class="container">
+            <div class="row">
+                <div class="col-4" style="margin: 0 auto;">
+                    <div class="card auth-card">
+                        <div class="card-header">
+                            <h2>Welcome Back</h2>
+                            <p>Sign in to your Farmer Lookup account</p>
+                        </div>
+                        
+                        <div class="card-body">
+                            <!-- Login Form -->
+                            <form class="login-form" id="loginForm">
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" required autofocus>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="userType">I am a:</label>
+                                    <select class="form-control form-select" id="userType" name="user_type" required>
+                                        <option value="">Select account type</option>
+                                        <option value="buyer">Buyer - Looking for local produce</option>
+                                        <option value="farmer">Farmer - Selling my products</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-check">
+                                        <input type="checkbox" name="remember_me">
+                                        <span class="checkmark"></span>
+                                        Remember me on this device
+                                    </label>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                                        Sign In
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <div class="auth-divider">
+                                <span>or</span>
+                            </div>
+                            
+                            <!-- Quick Access Buttons -->
+                            <div class="quick-access">
+                                <button type="button" class="btn btn-outline" onclick="quickLogin('buyer')" style="width: 100%; margin-bottom: var(--spacing-sm);">
+                                    <span class="icon icon-cart"></span>
+                                    Continue as Buyer
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="quickLogin('farmer')" style="width: 100%;">
+                                    <span class="icon icon-farm"></span>
+                                    Continue as Farmer
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <div class="auth-links">
+                                <p>Don't have an account? <a href="register.html">Sign up here</a></p>
+                                <p><a href="#forgot-password">Forgot your password?</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Demo Accounts Info -->
+                    <div class="card demo-info" style="margin-top: var(--spacing-lg);">
+                        <div class="card-body">
+                            <h4>Try Demo Accounts</h4>
+                            <p>Test the platform with these sample accounts:</p>
+                            
+                            <div class="demo-accounts">
+                                <div class="demo-account">
+                                    <strong>Demo Farmer:</strong><br>
+                                    Email: farmer@demo.com<br>
+                                    Password: demo123
+                                    <button class="btn btn-sm btn-outline" onclick="fillDemoCredentials('farmer')">
+                                        Use Demo
+                                    </button>
+                                </div>
+                                
+                                <div class="demo-account">
+                                    <strong>Demo Buyer:</strong><br>
+                                    Email: buyer@demo.com<br>
+                                    Password: demo123
+                                    <button class="btn btn-sm btn-outline" onclick="fillDemoCredentials('buyer')">
+                                        Use Demo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Login page specific JavaScript
+        function quickLogin(userType) {
+            document.getElementById('userType').value = userType;
+            // You could implement OAuth or social login here
+            // For now, just set the user type and show a message
+            app.showAlert(`Please enter your ${userType} credentials above`, 'info');
+        }
+        
+        function fillDemoCredentials(userType) {
+            document.getElementById('email').value = `${userType}@demo.com`;
+            document.getElementById('password').value = 'demo123';
+            document.getElementById('userType').value = userType;
+        }
+        
+        // Auto-focus on email field
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('email').focus();
+        });
+        
+        // Handle forgot password
+        document.addEventListener('click', function(e) {
+            if (e.target.getAttribute('href') === '#forgot-password') {
+                e.preventDefault();
+                showForgotPasswordModal();
+            }
+        });
+        
+        function showForgotPasswordModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal show';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>Reset Password</h3>
+                    <p>Enter your email address and we'll send you a link to reset your password.</p>
+                    <form id="forgotPasswordForm">
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" onclick="closeForgotPasswordModal()">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Send Reset Link
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            modal.querySelector('form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                app.showAlert('Password reset link sent! Check your email.', 'success');
+                closeForgotPasswordModal();
+            });
+        }
+        
+        function closeForgotPasswordModal() {
+            const modal = document.querySelector('.modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+    </script>
+
+    <style>
+        .auth-section {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-card {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .auth-divider {
+            text-align: center;
+            margin: var(--spacing-lg) 0;
+            position: relative;
+        }
+        
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--sage-light);
+            z-index: 1;
+        }
+        
+        .auth-divider span {
+            background: white;
+            padding: 0 var(--spacing-md);
+            color: var(--earth-brown);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .quick-access {
+            margin-top: var(--spacing-lg);
+        }
+        
+        .auth-links {
+            text-align: center;
+        }
+        
+        .auth-links p {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .auth-links a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+        
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .demo-info {
+            background: var(--sage-light);
+        }
+        
+        .demo-accounts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .demo-account {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+        }
+        
+        .demo-account button {
+            margin-top: var(--spacing-sm);
+            width: 100%;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+        }
+        
+        .form-check input[type="checkbox"] {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-accounts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

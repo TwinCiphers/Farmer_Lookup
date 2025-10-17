@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local Food Marketplace - Reviews</title>
+  <link rel="stylesheet" href="review.css" />
+</head>
+<body>
+  <header>
+    <h1>Local Food Hub - Customer Reviews</h1>
+  </header>
+  <main>
+    <section class="review-section">
+      <h2>Submit Your Review</h2>
+      <form id="review-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required />
+        <label for="rating">Rating:</label>
+        <select id="rating" required>
+          <option value="">Select</option>
+          <option value="5">5 - Excellent</option>
+          <option value="4">4 - Good</option>
+          <option value="3">3 - Average</option>
+          <option value="2">2 - Poor</option>
+          <option value="1">1 - Terrible</option>
+        </select>
+        <label for="comment">Comment:</label>
+        <textarea id="comment" rows="4" required></textarea>
+        <button type="submit">Submit Review</button>
+      </form>
+      <section class="reviews-display" id="reviews-display">
+        <h2>Reviews</h2>
+      </section>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Local Food Hub</p>
+  </footer>
+  <script src="review.js"></script>
+</body>
+</html>

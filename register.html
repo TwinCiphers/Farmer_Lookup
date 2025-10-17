@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Farmer Lookup</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">🚜</span>
+                <span class="logo-text">Farmer Lookup</span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="marketplace.html">Marketplace</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <a href="login.html" class="btn btn-outline">
+                    <span class="icon icon-user"></span> Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="auth-section section">
+        <div class="container">
+            <div class="row">
+                <div class="col-6" style="margin: 0 auto;">
+                    <div class="card auth-card">
+                        <div class="card-header">
+                            <h2>Join Farmer Lookup</h2>
+                            <p>Connect with your local food community</p>
+                        </div>
+                        
+                        <div class="card-body">
+                            <!-- User Type Selection -->
+                            <div class="user-type-selection" id="userTypeSelection">
+                                <h3>Choose Your Account Type</h3>
+                                
+                                <div class="user-type-options">
+                                    <div class="user-type-card" data-type="buyer">
+                                        <div class="type-icon">🛒</div>
+                                        <h4>I'm a Buyer</h4>
+                                        <p>Looking for fresh, local produce from farmers in my area</p>
+                                        <ul>
+                                            <li>Browse local farms and products</li>
+                                            <li>Direct communication with farmers</li>
+                                            <li>Order tracking and reviews</li>
+                                        </ul>
+                                        <button class="btn btn-primary btn-lg" onclick="selectUserType('buyer')">
+                                            Continue as Buyer
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="user-type-card" data-type="farmer">
+                                        <div class="type-icon">🚜</div>
+                                        <h4>I'm a Farmer</h4>
+                                        <p>Ready to sell my products directly to local customers</p>
+                                        <ul>
+                                            <li>Create digital farm profile</li>
+                                            <li>Manage inventory and orders</li>
+                                            <li>Build customer relationships</li>
+                                        </ul>
+                                        <button class="btn btn-secondary btn-lg" onclick="selectUserType('farmer')">
+                                            Continue as Farmer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Registration Form -->
+                            <form class="register-form" id="registrationForm" style="display: none;">
+                                <input type="hidden" id="userType" name="user_type" value="">
+                                
+                                <!-- Basic Information -->
+                                <div class="form-section">
+                                    <h4>Basic Information</h4>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label" for="firstName">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" name="first_name" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label" for="lastName">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" name="last_name" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email Address</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="(555) 123-4567">
+                                    </div>
+                                </div>
+
+                                <!-- Farmer-specific fields -->
+                                <div class="form-section" id="farmerFields" style="display: none;">
+                                    <h4>Farm Information</h4>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="farmName">Farm Name</label>
+                                        <input type="text" class="form-control" id="farmName" name="farm_name" placeholder="Green Valley Farm">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="farmDescription">Farm Description</label>
+                                        <textarea class="form-control" id="farmDescription" name="farm_description" rows="3" 
+                                                placeholder="Tell customers about your farm, growing practices, and what makes you special..."></textarea>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label" for="farmSize">Farm Size (acres)</label>
+                                            <input type="number" class="form-control" id="farmSize" name="farm_size_acres" min="0" step="0.1">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label" for="establishedYear">Established Year</label>
+                                            <input type="number" class="form-control" id="establishedYear" name="established_year" 
+                                                   min="1800" max="2024" placeholder="2010">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="farmingMethods">Farming Methods</label>
+                                        <select class="form-control form-select" id="farmingMethods" name="farming_methods">
+                                            <option value="">Select farming method</option>
+                                            <option value="organic">Certified Organic</option>
+                                            <option value="conventional">Conventional</option>
+                                            <option value="sustainable">Sustainable</option>
+                                            <option value="biodynamic">Biodynamic</option>
+                                            <option value="permaculture">Permaculture</option>
+                                            <option value="hydroponic">Hydroponic</option>
+                                            <option value="no-till">No-Till</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Buyer-specific fields -->
+                                <div class="form-section" id="buyerFields" style="display: none;">
+                                    <h4>Buyer Preferences</h4>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="buyerType">Buyer Type</label>
+                                        <select class="form-control form-select" id="buyerType" name="buyer_type">
+                                            <option value="individual">Individual/Family</option>
+                                            <option value="restaurant">Restaurant</option>
+                                            <option value="store">Grocery Store</option>
+                                            <option value="institution">Institution (School, Hospital, etc.)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group" id="businessNameGroup" style="display: none;">
+                                        <label class="form-label" for="businessName">Business Name</label>
+                                        <input type="text" class="form-control" id="businessName" name="business_name" 
+                                               placeholder="Your Restaurant/Store Name">
+                                    </div>
+                                </div>
+
+                                <!-- Address Information -->
+                                <div class="form-section">
+                                    <h4>Address Information</h4>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="address">Street Address</label>
+                                        <input type="text" class="form-control" id="address" name="address" required>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label" for="city">City</label>
+                                            <input type="text" class="form-control" id="city" name="city" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label" for="state">State</label>
+                                            <input type="text" class="form-control" id="state" name="state" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label" for="zipCode">ZIP Code</label>
+                                            <input type="text" class="form-control" id="zipCode" name="zip_code" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-section">
+                                    <h4>Account Security</h4>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label" for="password">Password</label>
+                                            <input type="password" class="form-control" id="password" name="password" 
+                                                   minlength="8" required>
+                                            <small class="form-text">At least 8 characters</small>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label" for="confirmPassword">Confirm Password</label>
+                                            <input type="password" class="form-control" id="confirmPassword" name="confirm_password" 
+                                                   minlength="8" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Terms and Submit -->
+                                <div class="form-section">
+                                    <div class="form-group">
+                                            <label class="form-check">
+                                                <input type="checkbox" id="termsAccepted" name="terms_accepted" required>
+                                                <span class="checkmark"></span>
+                                                I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>
+                                            </label>
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label class="form-check">
+                                                <input type="checkbox" id="marketingEmails" name="marketing_emails">
+                                                <span class="checkmark"></span>
+                                                Send me updates about new features and local farming news
+                                            </label>
+                                        </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline" onclick="goBackToTypeSelection()">
+                                        ← Back to Account Type
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        Create Account
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <p>Already have an account? <a href="login.html">Login here</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Registration page specific JavaScript
+        function selectUserType(type) {
+            document.getElementById('userType').value = type;
+            document.getElementById('userTypeSelection').style.display = 'none';
+            document.getElementById('registrationForm').style.display = 'block';
+            
+            // Show/hide relevant fields
+            if (type === 'farmer') {
+                document.getElementById('farmerFields').style.display = 'block';
+                document.getElementById('buyerFields').style.display = 'none';
+            } else {
+                document.getElementById('farmerFields').style.display = 'none';
+                document.getElementById('buyerFields').style.display = 'block';
+            }
+        }
+        
+        function goBackToTypeSelection() {
+            document.getElementById('userTypeSelection').style.display = 'block';
+            document.getElementById('registrationForm').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show business name field for non-individual buyers
+            const buyerTypeEl = document.getElementById('buyerType');
+            if (buyerTypeEl) {
+                buyerTypeEl.addEventListener('change', function(e) {
+                    const businessNameGroup = document.getElementById('businessNameGroup');
+                    if (e.target.value !== 'individual') {
+                        businessNameGroup.style.display = 'block';
+                        document.getElementById('businessName').required = true;
+                    } else {
+                        businessNameGroup.style.display = 'none';
+                        document.getElementById('businessName').required = false;
+                    }
+                });
+            }
+
+            // Auto-select user type from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            if (type && (type === 'farmer' || type === 'buyer')) {
+                selectUserType(type);
+            }
+
+            // Form submit handler: collect all fields and POST JSON to API
+            const form = document.getElementById('registrationForm');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Creating account...';
+
+                // Collect fields
+                const data = {};
+                const fd = new FormData(form);
+                for (const [k, v] of fd.entries()) {
+                    data[k] = v;
+                }
+
+                // Handle checkboxes separately
+                data.marketing_emails = !!document.getElementById('marketingEmails').checked;
+                data.terms_accepted = !!document.getElementById('termsAccepted').checked;
+
+                // Password match validation
+                const pw = document.getElementById('password').value || '';
+                const cpw = document.getElementById('confirmPassword').value || '';
+                if (pw !== cpw) {
+                    alert('Passwords do not match');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    return;
+                }
+
+                // Ensure terms accepted
+                if (!data.terms_accepted) {
+                    alert('You must accept the Terms of Service and Privacy Policy');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    return;
+                }
+
+                // Detect file:// origin which will cause fetch to fail in many browsers
+                if (window.location.protocol === 'file:') {
+                    alert('This registration page must be served over HTTP (e.g., via XAMPP). Open http://localhost/... instead of the file:// path.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    return;
+                }
+
+                // Send to API
+                try {
+                    const res = await fetch('api/register.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    // Non-2xx status codes may still return JSON with error info
+                    const text = await res.text();
+                    let json;
+                    try {
+                        json = text ? JSON.parse(text) : null;
+                    } catch (parseErr) {
+                        console.error('Failed to parse JSON response', parseErr, 'raw response:', text);
+                        alert('Server returned an unexpected response. See console for details.');
+                        return;
+                    }
+
+                    if (!res.ok) {
+                        const msg = json && json.message ? json.message : ('Server error: ' + res.status);
+                        alert('Error: ' + msg);
+                    } else if (json && json.success) {
+                        alert('Account created successfully');
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('Error: ' + (json && json.message ? json.message : 'Unknown error'));
+                    }
+                } catch (err) {
+                    console.error('Network or fetch error', err);
+                    alert('Network or server error. See console for details.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .auth-section {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-card {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .user-type-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .user-type-card {
+            border: 2px solid var(--sage-light);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .user-type-card:hover {
+            border-color: var(--secondary-green);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .type-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .user-type-card h4 {
+            color: var(--primary-green);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .user-type-card ul {
+            text-align: left;
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-lg);
+        }
+        
+        .user-type-card ul li {
+            margin-bottom: var(--spacing-xs);
+            color: var(--soil-dark);
+        }
+        
+        .form-section {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--sage-light);
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .form-section h4 {
+            color: var(--primary-green);
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.1rem;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+        }
+        
+        .form-check input[type="checkbox"] {
+            margin: 0;
+            margin-top: 2px;
+        }
+        
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--earth-brown);
+            margin-top: var(--spacing-xs);
+        }
+        
+        @media (max-width: 768px) {
+            .user-type-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

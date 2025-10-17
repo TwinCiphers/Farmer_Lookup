@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - Farmer Lookup</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">🚜</span>
+                <span class="logo-text">Farmer Lookup</span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html">Home</a></li>
+                    <li class="nav-item"><a href="marketplace.html" class="active">Marketplace</a></li>
+                    <li class="nav-item"><a href="#farmers">For Farmers</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-actions">
+                <a href="orders/order.html" class="btn btn-outline">
+                    <span class="icon icon-cart"></span>
+                    Cart <span class="cart-count" style="display: none;">0</span>
+                </a>
+                <a href="login.html" class="btn btn-outline">
+                    <span class="icon icon-user"></span> Login
+                </a>
+                <a href="register.html" class="btn btn-primary">
+                    Join as Farmer/Buyer
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Search Section -->
+    <section class="marketplace-hero section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Find Fresh Local Produce</h1>
+                <p>Discover farmers and fresh products in your area</p>
+                
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <form class="search-form" id="mainSearchForm">
+                        <div class="search-inputs">
+                            <div class="search-field">
+                                <span class="search-icon icon icon-search"></span>
+                                <input type="text" placeholder="Search for products, farms, or categories..." 
+                                       name="search" class="search-input">
+                            </div>
+                            
+                            <div class="location-field">
+                                <span class="search-icon icon icon-location"></span>
+                                <input type="text" placeholder="Enter your location..." 
+                                       name="location" class="location-input">
+                                <button type="button" class="detect-location-btn btn btn-sm btn-outline">
+                                    <span class="icon icon-location"></span>
+                                    Detect
+                                </button>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <span class="icon icon-search"></span>
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Quick Categories -->
+                <div class="quick-categories">
+                    <span>Popular:</span>
+                    <button class="category-tag" data-category="vegetables">🥬 Vegetables</button>
+                    <button class="category-tag" data-category="fruits">🍎 Fruits</button>
+                    <button class="category-tag" data-category="herbs">🌿 Herbs</button>
+                    <button class="category-tag" data-category="dairy">🥛 Dairy</button>
+                    <button class="category-tag" data-category="eggs">🥚 Eggs</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="marketplace-content section">
+        <div class="container">
+            <div class="row">
+                <!-- Filter Sidebar -->
+                <div class="col-3">
+                    <div class="filter-sidebar">
+                        <h3 class="filter-title">
+                            <span class="icon icon-search"></span>
+                            Filters
+                        </h3>
+                        
+                        <form class="filter-form" id="filterForm">
+                            <!-- Location Filters -->
+                            <div class="filter-section">
+                                <h4>Location</h4>
+                                <div class="form-group">
+                                    <label class="form-label">Distance</label>
+                                    <select name="distance" class="form-control form-select filter-control">
+                                        <option value="">Any distance</option>
+                                        <option value="5">Within 5 miles</option>
+                                        <option value="10">Within 10 miles</option>
+                                        <option value="25" selected>Within 25 miles</option>
+                                        <option value="50">Within 50 miles</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="latitude" value="">
+                                <input type="hidden" name="longitude" value="">
+                            </div>
+                            
+                            <!-- Category Filters -->
+                            <div class="filter-section">
+                                <h4>Categories</h4>
+                                <div class="category-checkboxes">
+                                    <label class="form-check">
+                                        <input type="checkbox" name="categories[]" value="vegetables" class="filter-control">
+                                        <span class="checkmark"></span>
+                                        🥬 Vegetables
+                                    </label>
+                                    <label class="form-check">
+                                        <input type="checkbox" name="categories[]" value="fruits" class="filter-control">
+                                        <span class="checkmark"></span>
+                                        🍎 Fruits
+                                    </label>
+                                    <label class="form-check">
+                                        <input type="checkbox" name="categories[]" value="herbs" class="filter-control">
+                                        <span class="checkmark"></span>
+                                        🌿 Herbs
+                                    </label>
+                                    <label class="form-check">
+                                        <input type="checkbox" name="categories[]" value="dairy" class="filter-control">
+                                        <span class="checkmark"></span>
+                                        🥛 Dairy
+                                    </label>
+                                    <label class="form-check">
+                                        <input type="checkbox" name="categories[]" value="meat" class="filter-control">
+                                        <span class="checkmark"></span>
+                                        🥩 Meat
+                                    </label>
+                                    <label class="form-check">
+                                        <input type="checkbox" name="categories[]" value="eggs" class="filter-control">
+                                        <span class="checkmark"></span>
+                                        🥚 Eggs
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Availability Filters -->
+                            <div class="filter-section">
+                                <h4>Availability</h4>
+                                <label class="form-check">
+                                    <input type="checkbox" name="available_now" value="1" class="filter-control">
+                                    <span class="checkmark"></span>
+                                    Available Now
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="this_week" value="1" class="filter-control">
+                                    <span class="checkmark"></span>
+                                    Available This Week
+                                </label>
+                            </div>
+                            
+                            <!-- Farming Method Filters -->
+                            <div class="filter-section">
+                                <h4>Farming Methods</h4>
+                                <label class="form-check">
+                                    <input type="checkbox" name="farming_methods[]" value="organic" class="filter-control">
+                                    <span class="checkmark"></span>
+                                    Organic
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="farming_methods[]" value="sustainable" class="filter-control">
+                                    <span class="checkmark"></span>
+                                    Sustainable
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="farming_methods[]" value="no-till" class="filter-control">
+                                    <span class="checkmark"></span>
+                                    No-Till
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="farming_methods[]" value="hydroponic" class="filter-control">
+                                    <span class="checkmark"></span>
+                                    Hydroponic
+                                </label>
+                            </div>
+                            
+                            <!-- Price Range -->
+                            <div class="filter-section">
+                                <h4>Price Range</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <input type="number" name="min_price" placeholder="Min $" 
+                                               class="form-control filter-control" min="0" step="0.50">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" name="max_price" placeholder="Max $" 
+                                               class="form-control filter-control" min="0" step="0.50">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Clear Filters -->
+                            <div class="filter-actions">
+                                <button type="button" class="btn btn-outline btn-sm" onclick="clearFilters()">
+                                    Clear All Filters
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Products Grid -->
+                <div class="col-9">
+                    <!-- Results Header -->
+                    <div class="results-header">
+                        <div class="results-info">
+                            <h3 id="resultsCount">Searching for products...</h3>
+                            <p id="resultsSubtext">Use filters to refine your search</p>
+                        </div>
+                        
+                        <div class="sort-controls">
+                            <select name="sort" class="form-control form-select" id="sortSelect">
+                                <option value="relevance">Sort by Relevance</option>
+                                <option value="distance">Sort by Distance</option>
+                                <option value="price_low">Price: Low to High</option>
+                                <option value="price_high">Price: High to Low</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Products Grid -->
+                    <div class="product-grid" id="productGrid">
+                        <!-- Products will be loaded here dynamically -->
+                        <div class="loading-products">
+                            <div class="loading"></div>
+                            <p>Finding local products for you...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Load More -->
+                    <div class="load-more-section" id="loadMoreSection" style="display: none;">
+                        <button class="btn btn-outline btn-lg" id="loadMoreBtn">
+                            Load More Products
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Farmers Section -->
+    <section class="featured-farmers section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Farmers</h2>
+                <p>Meet some of the farmers in your area</p>
+            </div>
+            
+            <div class="farmers-grid" id="featuredFarmers">
+                <!-- Will be populated dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Marketplace specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load initial products
+            if (typeof loadProducts === 'function') loadProducts();
+            
+            // Load featured farmers
+            if (typeof loadFeaturedFarmers === 'function') loadFeaturedFarmers();
+            
+            // Handle category tags
+            document.querySelectorAll('.category-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    const checkbox = document.querySelector(`input[name="categories[]"][value="${category}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                        if (window.app && typeof app.handleFilterChange === 'function') {
+                            app.handleFilterChange();
+                        } else if (typeof loadProducts === 'function') {
+                            loadProducts();
+                        }
+                    } else {
+                        console.warn('Category checkbox not found for', category);
+                    }
+                });
+            });
+            
+            // Handle sort change
+            const _sortEl = document.getElementById('sortSelect');
+            if (_sortEl) {
+                _sortEl.addEventListener('change', function() {
+                    if (typeof loadProducts === 'function') loadProducts();
+                });
+            }
+            
+            // Handle load more
+            const _loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (_loadMoreBtn) {
+                _loadMoreBtn.addEventListener('click', function() {
+                    if (typeof loadMoreProducts === 'function') loadMoreProducts();
+                });
+            }
+        });
+        
+        async function loadProducts(page = 1) {
+            const productGrid = document.getElementById('productGrid');
+            const resultsCount = document.getElementById('resultsCount');
+            const resultsSubtext = document.getElementById('resultsSubtext');
+            
+            if (page === 1) {
+                productGrid.innerHTML = `
+                    <div class="loading-products">
+                        <div class="loading"></div>
+                        <p>Finding local products for you...</p>
+                    </div>
+                `;
+            }
+            
+            try {
+                // Get filter values
+                const filters = getFilterValues();
+                filters.page = page;
+                filters.sort = document.getElementById('sortSelect').value;
+                
+                let products = [];
+                if (window.app && typeof app.searchProducts === 'function') {
+                    products = await app.searchProducts(filters);
+                } else {
+                    console.warn('app.searchProducts not available; returning empty list');
+                    products = [];
+                }
+
+                if (page === 1) {
+                    resultsCount.textContent = `Found ${Array.isArray(products) ? products.length : 0} products`;
+                    resultsSubtext.textContent = `Fresh produce from local farmers`;
+                }
+                
+                // Show load more button if there are more products
+                const loadMoreSection = document.getElementById('loadMoreSection');
+                loadMoreSection.style.display = products.length >= 20 ? 'block' : 'none';
+                
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                productGrid.innerHTML = `
+                    <div class="error-message">
+                        <h3>Unable to load products</h3>
+                        <p>Please check your connection and try again.</p>
+                        <button class="btn btn-primary" onclick="loadProducts()">Retry</button>
+                    </div>
+                `;
+            }
+        }
+        
+        function loadMoreProducts() {
+            // Implementation for loading more products (pagination)
+            const currentPage = parseInt(document.getElementById('loadMoreBtn').dataset.page || '1');
+            const nextPage = currentPage + 1;
+            
+            document.getElementById('loadMoreBtn').dataset.page = nextPage;
+            loadProducts(nextPage);
+        }
+        
+        function getFilterValues() {
+            const form = document.getElementById('filterForm');
+            const formData = new FormData(form);
+            const filters = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (filters[key]) {
+                    if (Array.isArray(filters[key])) {
+                        filters[key].push(value);
+                    } else {
+                        filters[key] = [filters[key], value];
+                    }
+                } else {
+                    filters[key] = value;
+                }
+            }
+            
+            return filters;
+        }
+        
+        function clearFilters() {
+            document.getElementById('filterForm').reset();
+            loadProducts();
+        }
+        
+        async function loadFeaturedFarmers() {
+            const farmersGrid = document.getElementById('featuredFarmers');
+            
+            // Mock featured farmers data
+            const farmers = [
+                {
+                    id: 1,
+                    name: "Green Valley Farm",
+                    owner: "Sarah Johnson",
+                    image: "assets/images/farm1.jpg",
+                    rating: 4.8,
+                    products: ["Organic Vegetables", "Fresh Herbs"],
+                    distance: "5.2 miles"
+                },
+                {
+                    id: 2,
+                    name: "Sunny Acres",
+                    owner: "Mike Chen",
+                    image: "assets/images/farm2.jpg",
+                    rating: 4.9,
+                    products: ["Seasonal Fruits", "Farm Eggs"],
+                    distance: "8.7 miles"
+                },
+                {
+                    id: 3,
+                    name: "Heritage Farm",
+                    owner: "Maria Rodriguez",
+                    image: "assets/images/farm3.jpg",
+                    rating: 4.7,
+                    products: ["Grass-fed Beef", "Raw Milk"],
+                    distance: "12.3 miles"
+                }
+            ];
+            
+            // local fallback for star rendering when `app` is not available
+            function __localCreateRatingStars(rating) {
+                const fullStars = Math.floor(rating);
+                const halfStar = rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+                let stars = '';
+                for (let i = 0; i < fullStars; i++) stars += '<span class="star filled">★</span>';
+                if (halfStar) stars += '<span class="star half">☆</span>';
+                for (let i = 0; i < emptyStars; i++) stars += '<span class="star">☆</span>';
+                return `<div class="rating">${stars}</div>`;
+            }
+
+            farmersGrid.innerHTML = farmers.map(farmer => `
+                <div class="farmer-card">
+                    <div class="farmer-image">
+                        <img src="${farmer.image}" alt="${farmer.name}" onerror="this.src='assets/images/placeholder-farm.jpg'">
+                    </div>
+                    <div class="farmer-info">
+                        <h4>${farmer.name}</h4>
+                        <p class="farmer-owner">by ${farmer.owner}</p>
+                        <div class="farmer-rating">
+                            ${window.app && typeof app.createRatingStars === 'function' ? app.createRatingStars(farmer.rating) : __localCreateRatingStars(farmer.rating)}
+                            <span>${farmer.rating}</span>
+                        </div>
+                        <div class="farmer-products">
+                            ${farmer.products.map(product => `<span class="product-tag">${product}</span>`).join('')}
+                        </div>
+                        <div class="farmer-distance">
+                            <span class="icon icon-location"></span>
+                            ${farmer.distance}
+                        </div>
+                        <div class="farmer-actions">
+                            <button class="btn btn-outline btn-sm" onclick="viewFarmer(${farmer.id})">
+                                View Profile
+                            </button>
+                            <button class="btn btn-primary btn-sm" onclick="messageFarmer(${farmer.id})">
+                                <span class="icon icon-message"></span>
+                                Message
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function viewFarmer(farmerId) {
+            window.location.href = `farmer-profile.html?id=${farmerId}`;
+        }
+        
+        function messageFarmer(farmerId) {
+            // Implementation for messaging farmer
+            app.showAlert('Please login to message farmers', 'info');
+        }
+    </script>
+
+    <style>
+        .marketplace-hero {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero-content h1 {
+            color: white;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .search-bar {
+            max-width: 800px;
+            margin: var(--spacing-xl) auto;
+        }
+        
+        .search-inputs {
+            display: flex;
+            gap: var(--spacing-sm);
+            background: white;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .search-field {
+            flex: 2;
+            position: relative;
+        }
+        
+        .location-field {
+            flex: 1;
+            position: relative;
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-sm);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--earth-brown);
+        }
+        
+        .search-input,
+        .location-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) var(--spacing-xxl);
+            border: 1px solid #e0e0e0;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+        }
+        
+        .location-input {
+            flex: 1;
+        }
+        
+        .quick-categories {
+            margin-top: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+        
+        .category-tag {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-tag:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .marketplace-content {
+            min-height: 600px;
+        }
+        
+        .filter-section {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--sage-light);
+        }
+        
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+        
+        .filter-section h4 {
+            color: var(--primary-green);
+            margin-bottom: var(--spacing-md);
+            font-size: 1rem;
+        }
+        
+        .category-checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--sage-light);
+        }
+        
+        .results-info h3 {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .results-info p {
+            color: var(--earth-brown);
+            margin-bottom: 0;
+        }
+        
+        .sort-controls select {
+            min-width: 200px;
+        }
+        
+        .loading-products,
+        .error-message {
+            text-align: center;
+            padding: var(--spacing-xxl);
+            color: var(--earth-brown);
+        }
+        
+        .loading-products .loading {
+            margin: 0 auto var(--spacing-lg);
+        }
+        
+        .load-more-section {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .featured-farmers {
+            background: var(--sage-light);
+        }
+        
+        .farmers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .farmer-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 11.3s ease;
+        }
+        
+        .farmer-card:hover {
+            box-shadow: var(--shadow-heavy);
+            transform: translateY(-4px);
+        }
+        
+        .farmer-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .farmer-info {
+            padding: var(--spacing-lg);
+        }
+        
+        .farmer-info h4 {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .farmer-owner {
+            color: var(--earth-brown);
+            font-size: 0.875rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .farmer-rating {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .farmer-products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .product-tag {
+            background: var(--sage-light);
+            color: var(--primary-green);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+        }
+        
+        .farmer-distance {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--earth-brown);
+            font-size: 0.875rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .farmer-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .farmer-actions .btn {
+            flex: 1;
+        }
+        
+        @media (max-width: 968px) {
+            .results-header {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: stretch;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-inputs {
+                flex-direction: column;
+            }
+            
+            .quick-categories {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</body>
+</html>

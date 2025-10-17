@@ -1,0 +1,214 @@
+-<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Local Food Marketplace - Location Based Search</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f8f5;
+    margin: 20px;
+  }
+  h1 {
+    color: #2a5d34;
+  }
+  #search-panel {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 700px;
+    box-shadow: 0 2px 5px rgba(42, 93, 52, 0.15);
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    margin: 10px 0 6px;
+    font-weight: bold;
+  }
+  select, input[type="number"], input[type="text"] {
+    padding: 7px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+  }
+  button {
+    background-color: #2a5d34;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 12px;
+  }
+  button:hover {
+    background-color: #1f4325;
+  }
+  #farmers-list {
+    max-width: 700px;
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(42, 93, 52, 0.15);
+  }
+  .farmer {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  .farmer:last-child {
+    border-bottom: none;
+  }
+  .title {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #2a5d34;
+  }
+  .info {
+    margin: 5px 0;
+  }
+  #status {
+    color: #e74c3c;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h1>Local Food Marketplace: Find Farmers Near You</h1>
+
+<div id="search-panel">
+  <button id="detect-location">Use My Location</button>
+  <div id="status"></div>
+
+  <label for="distance">Max Delivery Distance (km):</label>
+  <input type="number" id="distance" min="1" max="50" value="20" />
+
+  <label for="product-type">Filter by Product Type:</label>
+  <select id="product-type">
+    <option value="">All</option>
+    <option value="vegetables">Vegetables</option>
+    <option value="fruits">Fruits</option>
+    <option value="dairy">Dairy</option>
+    <option value="eggs">Eggs</option>
+  </select>
+
+  <label for="farming-practice">Farming Practice:</label>
+  <select id="farming-practice">
+    <option value="">All</option>
+    <option value="organic">Organic</option>
+    <option value="conventional">Conventional</option>
+  </select>
+
+  <label for="availability">Availability:</label>
+  <select id="availability">
+    <option value="">All</option>
+    <option value="in-stock">In Stock</option>
+    <option value="pre-order">Pre-Order</option>
+  </select>
+
+  <button id="search-btn">Search Farmers</button>
+</div>
+
+<div id="farmers-list">
+  <h2>Farmers Near You</h2>
+  <div id="results"></div>
+</div>
+
+<script>
+// Sample farmer data with location (latitude, longitude), products, practices, availability
+const farmers = [
+  { id: 1, name: 'Sunny Farms', lat: 40.7128, lon: -74.0060, products: ['vegetables','fruits'], practice: 'organic', availability: 'in-stock' },
+  { id: 2, name: 'Green Valley', lat: 40.73061, lon: -73.935242, products: ['dairy','eggs'], practice: 'conventional', availability: 'pre-order' },
+  { id: 3, name: 'Red Barn', lat: 40.6900, lon: -73.9903, products: ['fruits'], practice: 'organic', availability: 'in-stock' },
+  { id: 4, name: 'Happy Fields', lat: 40.6500, lon: -74.0000, products: ['vegetables','dairy'], practice: 'conventional', availability: 'in-stock' },
+];
+
+// User location global
+let userLocation = null;
+
+const statusEl = document.getElementById('status');
+const resultsEl = document.getElementById('results');
+
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  function toRad(x) { return x * Math.PI / 180; }
+  const R = 6371; // km
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+            Math.cos(toRad(lat1))*Math.cos(toRad(lat2)) *
+            Math.sin(dLon/2)*Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function filterFarmers() {
+  if (!userLocation) {
+    statusEl.textContent = "Please allow location access or enter your location manually.";
+    return;
+  }
+
+  const maxDist = parseFloat(document.getElementById('distance').value) || 20;
+  const productType = document.getElementById('product-type').value;
+  const practice = document.getElementById('farming-practice').value;
+  const availability = document.getElementById('availability').value;
+
+  let filtered = farmers.filter(farmer => {
+    const dist = haversineDistance(userLocation.lat, userLocation.lon, farmer.lat, farmer.lon);
+    if (dist > maxDist) return false;
+    if (productType && !farmer.products.includes(productType)) return false;
+    if (practice && farmer.practice !== practice) return false;
+    if (availability && farmer.availability !== availability) return false;
+    return true;
+  });
+
+  displayResults(filtered);
+}
+
+function displayResults(farmersArr) {
+  if (farmersArr.length === 0) {
+    resultsEl.innerHTML = "<p>No farmers found matching your criteria.</p>";
+    return;
+  }
+  resultsEl.innerHTML = "";
+  farmersArr.forEach(f => {
+    const dist = haversineDistance(userLocation.lat, userLocation.lon, f.lat, f.lon).toFixed(1);
+    const div = document.createElement('div');
+    div.className = 'farmer';
+    div.innerHTML = `
+      <div class="title">${f.name}</div>
+      <div class="info">Distance: ${dist} km</div>
+      <div class="info">Products: ${f.products.join(', ')}</div>
+      <div class="info">Practice: ${f.practice}</div>
+      <div class="info">Availability: ${f.availability}</div>
+    `;
+    resultsEl.appendChild(div);
+  });
+}
+
+// Detect user location using Geolocation API
+document.getElementById('detect-location').addEventListener('click', () => {
+  statusEl.textContent = "Locating...";
+  if (!navigator.geolocation) {
+    statusEl.textContent = "Geolocation is not supported by your browser.";
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(pos => {
+    userLocation = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+    statusEl.textContent = `Location found: (${userLocation.lat.toFixed(3)}, ${userLocation.lon.toFixed(3)})`;
+  }, err => {
+    statusEl.textContent = "Unable to retrieve your location.";
+  });
+});
+
+// Run search on button click
+document.getElementById('search-btn').addEventListener('click', () => {
+  filterFarmers();
+});
+</script>
+
+</body>
+</html>

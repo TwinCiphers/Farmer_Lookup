@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Area Checker</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom Font and Global Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        /* Custom Animation for results */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <script>
+        // Configure Tailwind to use a custom primary color
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4f46e5', /* Indigo for branding */
+                        'success': '#10b981', /* Green for success */
+                        'error': '#ef4444', /* Red for errors */
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex items-start justify-center p-6">
+
+    <div class="w-full max-w-lg mt-10 bg-white p-8 md:p-10 rounded-xl shadow-2xl border border-gray-100">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <i class="fas fa-truck-moving text-primary text-5xl mb-3"></i>
+            <h1 class="text-3xl font-extrabold text-gray-800">Check Your Service Area</h1>
+            <p class="text-gray-500 mt-2">Enter your ZIP code below to instantly confirm delivery availability and details.</p>
+        </header>
+
+        <!-- Input Form -->
+        <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="zipCodeInput" placeholder="e.g., 90210" 
+                       class="flex-grow p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary transition duration-200 text-lg"
+                       maxlength="10" required>
+                
+                <button type="submit" id="checkButton" 
+                        class="px-6 py-4 bg-primary text-white font-bold rounded-lg shadow-md hover:bg-indigo-600 transition duration-200 flex-shrink-0">
+                    Check Zone
+                </button>
+            </div>
+            <p class="text-sm text-gray-400 text-center">We currently serve the metropolitan area and surrounding suburbs.</p>
+        </div>
+
+        <!-- Result Area (Hidden initially) -->
+        <div id="resultArea" class="mt-8 pt-6 border-t border-gray-200 hidden fade-in">
+            <!-- Dynamic content goes here -->
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const zipCodeInput = document.getElementById('zipCodeInput');
+            const checkButton = document.getElementById('checkButton');
+            const resultArea = document.getElementById('resultArea');
+
+            // --- CORE SERVICE DATA ---
+            // Define your service areas and associated details here
+            const SERVICE_DATA = {
+                // ZIP Codes in Service Zone 1 (Fastest, Cheapest)
+                '563115': { status: 'IN', fee: 2.99, min: 10.00, time: '15-25 min', zone: 'Zone A (Core)' },
+                '561211': { status: 'IN', fee: 2.99, min: 10.00, time: '15-25 min', zone: 'Zone A (Core)' },
+                
+                // ZIP Codes in Service Zone 2 (Standard)
+                '78701': { status: 'IN', fee: 4.99, min: 20.00, time: '30-45 min', zone: 'Zone B (Suburban)' },
+                '78703': { status: 'IN', fee: 4.99, min: 20.00, time: '30-45 min', zone: 'Zone B (Suburban)' },
+
+                // ZIP Codes in Service Zone 3 (Extended)
+                '10001': { status: 'IN', fee: 7.50, min: 35.00, time: '45-60 min', zone: 'Zone C (Extended)' },
+            };
+
+            // Helper function to format currency
+            const formatCurrency = (amount) => `$${amount.toFixed(2)}`;
+
+            // Function to display the result HTML
+            const displayResult = (data) => {
+                const isInService = data.status === 'IN';
+                let htmlContent = '';
+
+                if (isInService) {
+                    htmlContent = `
+                        <div class="bg-success/10 border-l-4 border-success text-success p-4 rounded-lg fade-in">
+                            <h4 class="text-2xl font-bold flex items-center mb-2">
+                                <i class="fas fa-check-circle mr-3"></i> 
+                                Delivery Confirmed!
+                            </h4>
+                            <p class="text-sm mb-4">You are in **${data.zone}** (ZIP ${data.zip}). Here are your details:</p>
+                            
+                            <!-- Detail Grid -->
+                            <div class="grid grid-cols-3 gap-3 text-center">
+                                <div class="bg-white p-3 rounded-lg shadow-sm border-b-2 border-success">
+                                    <p class="text-xs text-gray-500">Fee</p>
+                                    <p class="text-lg font-bold text-success">${formatCurrency(data.fee)}</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow-sm border-b-2 border-primary">
+                                    <p class="text-xs text-gray-500">Min. Order</p>
+                                    <p class="text-lg font-bold text-primary">${formatCurrency(data.min)}</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg shadow-sm border-b-2 border-gray-500">
+                                    <p class="text-xs text-gray-500">Est. Time</p>
+                                    <p class="text-lg font-bold text-gray-700">${data.time}</p>
+                                </div>
+                            </div>
+
+                            <a href="http://localhost/FarmerLookup/marketplace.html" class="mt-4 block w-full text-center py-2 bg-success text-white font-semibold rounded-lg hover:bg-green-600 transition">
+                                Start Ordering Now
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    htmlContent = `
+                        <div class="bg-error/10 border-l-4 border-error text-error p-4 rounded-lg fade-in">
+                            <h4 class="text-2xl font-bold flex items-center mb-2">
+                                <i class="fas fa-times-circle mr-3"></i> 
+                                Out of Service Area
+                            </h4>
+                            <p class="text-sm mb-4">We apologize! We do not currently deliver to ZIP **${data.zip}**. Please check back later or contact us for alternatives.</p>
+                            <a href="/contact" class="mt-4 block w-full text-center py-2 bg-error text-white font-semibold rounded-lg hover:bg-red-600 transition">
+                                Contact for Alternatives
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                resultArea.innerHTML = htmlContent;
+                resultArea.classList.remove('hidden');
+            };
+
+            // Main logic handler
+            const handleCheckZone = () => {
+                const rawInput = zipCodeInput.value.trim();
+                const zipCode = rawInput.match(/\b\d{5}\b/) ? rawInput.match(/\b\d{5}\b/)[0] : rawInput;
+
+                if (!zipCode) {
+                    // Simple error message instead of alert()
+                    resultArea.innerHTML = `<div class="p-4 bg-yellow-100 text-yellow-800 rounded-lg fade-in"><i class="fas fa-exclamation-triangle mr-2"></i> Please enter a valid ZIP code.</div>`;
+                    resultArea.classList.remove('hidden');
+                    return;
+                }
+                
+                // Simulate loading state
+                checkButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Checking...';
+                checkButton.disabled = true;
+                resultArea.classList.add('hidden');
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    checkButton.textContent = 'Check Zone';
+                    checkButton.disabled = false;
+
+                    const data = SERVICE_DATA[zipCode] || { status: 'OUT', zip: rawInput };
+                    if (data.status === 'OUT') {
+                         displayResult({ status: 'OUT', zip: rawInput });
+                    } else {
+                        displayResult({ ...data, zip: rawInput });
+                    }
+
+                }, 800); 
+            };
+
+            // --- Event Listeners ---
+            checkButton.addEventListener('click', handleCheckZone);
+            
+            // Allow checking zone on Enter key press
+            zipCodeInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    handleCheckZone();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
