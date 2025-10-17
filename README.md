@@ -2,7 +2,7 @@
 
 A comprehensive web application connecting local farmers with buyers, built with **PHP + MongoDB** backend and **HTML/CSS/JavaScript** frontend featuring an agricultural color palette and complete marketplace functionality.
 
-![Platform Preview](assets\preview.jpg)
+![Platform Preview](https://github.com/TwinCiphers/Farmer_Lookup/blob/master/assets/preview.jpg)
 
 ## 🌾 **Core Value Proposition**
 
