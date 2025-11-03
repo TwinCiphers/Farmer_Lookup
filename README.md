@@ -4,6 +4,19 @@ A comprehensive web application connecting local farmers with buyers, built with
 
 ![Platform Preview](https://github.com/TwinCiphers/Farmer_Lookup/blob/master/assets/preview.jpg)
 
+## Authors
+Author Name: DEEPAK P S <br>
+Mail id : deepakkrishnark@gmail.com
+
+Author Name: TILAK B V<br>
+Mail id : -
+
+Author Name: DARSHAN S M<br>
+Mail id : -
+
+Author Name: KARTHIK <br>
+Mail id : -
+
 ## 🌾 **Core Value Proposition**
 
 Farmer Lookup eliminates the middleman by providing farmers with digital tools to manage their business while offering buyers transparent, hyper-local access to fresh produce. The platform focuses on **efficiency**, **trust**, and **community impact**.
